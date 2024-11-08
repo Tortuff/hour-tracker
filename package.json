@@ -1,0 +1,23 @@
+{
+  "name": "hour-tracker-youtrack",
+  "version": "0.0.1",
+  "description": "Implementation of the YouTrack API intagration",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --inspect main.js"
+  },
+  "type": "module",
+  "author": "Yevhenii Bielykh",
+  "license": "ISC",
+  "dependencies": {
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "1.4.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "1.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
