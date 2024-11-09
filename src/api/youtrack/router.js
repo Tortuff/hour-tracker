@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { YouTrackIssueFields } from './request-fields/issues.js';
 import { YouTrackWorkItemFields } from './request-fields/work-item.js';
-import { requestYouTrack } from './lib/request-youtrack.js';
+import { requestYouTrack } from './lib/send-request-youtrack.js';
 
 const youTrackRouter = Router();
 
