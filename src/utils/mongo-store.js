@@ -4,7 +4,7 @@ import MongoStore from 'connect-mongo';
 /** @type { import('connect-mongo/build/main/lib/MongoStore').ConnectMongoOptions } */
 const options = {
   mongoUrl: process.env.MONGO_URI,
-  ttl: 24 * 60 * 60,
+  ttl: 24 * 60 * 60 * 1000,
 };
 
 export const mongoStore = MongoStore.create(options);
@@ -17,7 +17,7 @@ export const MongoStoreMiddleware = session({
     httpOnly: true,
     maxAge: options.ttl,
     signed: true,
-    sameSite: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'none',
     secure: process.env.NODE_ENV === 'production',
   },
   store: mongoStore,

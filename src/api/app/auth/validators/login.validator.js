@@ -1,3 +1,5 @@
+import { finishValidation } from '../../../../utils/exceptions/finish-validation.js';
+
 export function validateLoginRequest({ body: { login, password } }, res, next) {
   const errors = { login: [], password: [] };
 
@@ -8,9 +10,5 @@ export function validateLoginRequest({ body: { login, password } }, res, next) {
     errors.password.push('"password" must be a string');
   }
 
-  if (!Object.values(errors).some(arr => arr.length)) return next();
-
-  Object.entries(errors).forEach(([key, value]) => !value.length && (errors[key] = undefined));
-  errors.type = 'validation_exception';
-  res.status(400).json(errors);
+  return finishValidation(errors, next);
 }

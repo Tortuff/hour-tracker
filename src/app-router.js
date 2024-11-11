@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { notFoundApiRoute } from './utils/not-found.js';
 import { apiRouter } from './api/api-router.js';
 import { join } from 'node:path';
 
