@@ -28,6 +28,7 @@ export const UserSchema = new Schema({
     unique: true,
     minlength: 3,
     maxlength: 64,
+    lowercase: true,
   },
 
   password: {
@@ -57,5 +58,15 @@ export const UserSchema = new Schema({
     default: Date.now,
   },
 });
+
+UserSchema.methods.toResponseDTO = function () {
+  return {
+    id: this._id.toString(),
+    admin: this.admin,
+    name: this.name,
+    surname: this.surname,
+    login: this.login,
+  };
+};
 
 export const UserModel = model(SchemaRef.User, UserSchema);

@@ -1,7 +1,6 @@
 import { UnauthorizedException } from '../../../utils/exceptions/unauthorized.exception.js';
 import { UserModel } from '../../../utils/schemas/user.schema.js';
 import { CryptoService } from '../../../utils/services/crypto.service.js';
-import { userModelToResponseDto } from './mappers.js';
 
 export async function login(req, res, next) {
   const { login, password } = req.body;
@@ -12,7 +11,7 @@ export async function login(req, res, next) {
   const isPwdValid = await CryptoService.hasEqualPasswords(user, password);
   if (!isPwdValid) return next(new UnauthorizedException());
 
-  req.session.user = userModelToResponseDto(user);
+  req.session.user = user.toResponseDTO();
   res.json(req.session.user);
 }
 
