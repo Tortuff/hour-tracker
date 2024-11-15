@@ -52,7 +52,17 @@ export async function createTask(req, res, next) {
 }
 
 export async function updateTask(req, res, next) {
-  res.send('OK');
+  const task = await TaskModel.findById(req.params.id);
+  if (!task) return next(new NotFoundException());
+
+  if (!Object.entries(req.body).length) {
+    return res.json(task.toResponseDTO());
+  }
+
+  Object.entries(req.body).forEach(([key, value]) => (task[key] = value));
+  if (!(await task.save().catch(next))) return;
+
+  res.json(task.toResponseDTO());
 }
 
 export async function bulkRemove(req, res, next) {
