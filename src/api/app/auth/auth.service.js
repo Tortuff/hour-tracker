@@ -3,7 +3,7 @@ import { UserModel } from '../../../utils/schemas/user.schema.js';
 import { CryptoService } from '../../../utils/services/crypto.service.js';
 import { userModelToResponseDto } from './mappers.js';
 
-async function login(req, res, next) {
+export async function login(req, res, next) {
   const { login, password } = req.body;
   const user = await UserModel.findOne({ login });
 
@@ -16,11 +16,11 @@ async function login(req, res, next) {
   res.json(req.session.user);
 }
 
-async function returnMe(req, res, next) {
-  if (!req.session?.user) {
-    return next(new UnauthorizedException());
-  }
+export async function returnMe(req, res, next) {
   res.json(req.session.user);
 }
 
-export { login, returnMe };
+export async function logout(req, res, next) {
+  const error = await new Promise(res => req.session.destroy(res));
+  error ? next(error) : res.send();
+}
