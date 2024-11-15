@@ -32,7 +32,11 @@ export async function getTasks(req, res, next) {
 }
 
 export async function removeTask(req, res, next) {
-  res.send('OK');
+  const task = await TaskModel.findById(req.params.id);
+  if (!task) return next(new NotFoundException());
+
+  if (!(await task.deleteOne().catch(next))) return;
+  res.json(task.toResponseDTO());
 }
 
 export async function createTask(req, res, next) {

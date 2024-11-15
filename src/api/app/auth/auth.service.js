@@ -3,6 +3,12 @@ import { UserModel } from '../../../utils/schemas/user.schema.js';
 import { CryptoService } from '../../../utils/services/crypto.service.js';
 
 export async function login(req, res, next) {
+  if (req.session?.user) {
+    req.session.touch();
+    const error = await new Promise(res => req.session.save(res));
+    return error ? next(error) : res.json(req.session.user);
+  }
+
   const { login, password } = req.body;
   const user = await UserModel.findOne({ login });
 
@@ -21,5 +27,5 @@ export async function returnMe(req, res, next) {
 
 export async function logout(req, res, next) {
   const error = await new Promise(res => req.session.destroy(res));
-  error ? next(error) : res.send();
+  error ? next(error) : res.end();
 }

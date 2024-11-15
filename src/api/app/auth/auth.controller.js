@@ -5,7 +5,7 @@ import { authorized } from './validators/authorized.validator.js';
 
 const authController = Router();
 
-authController.post('/login', validateLogin, login);
+authController.post('/login', ...validateLogin(), login);
 authController.get('/me', authorized, returnMe);
 authController.get('/logout', authorized, logout);
 
