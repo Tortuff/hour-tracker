@@ -1,3 +1,4 @@
+import { mongo } from 'mongoose';
 import { NotFoundException } from '../../../utils/exceptions/not-found.exception.js';
 import { ValidationException } from '../../../utils/exceptions/validation.exception.js';
 import { TaskModel } from '../../../utils/schemas/task.schema.js';
@@ -66,5 +67,13 @@ export async function updateTask(req, res, next) {
 }
 
 export async function bulkRemove(req, res, next) {
-  res.send('OK');
+  const uniqueIds = Array.from(new Set(req.body.ids)).map(v => new mongo.ObjectId(v));
+  const tasks = await TaskModel.find({ _id: { $in: uniqueIds } });
+
+  if (!tasks.length) return next(new NotFoundException());
+
+  const deleted = await Promise.all(tasks.map(t => t.deleteOne())).catch(next);
+  if (!deleted) return;
+
+  return res.json(tasks.map(t => t.toResponseDTO()));
 }

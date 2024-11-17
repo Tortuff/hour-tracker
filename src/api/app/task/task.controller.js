@@ -5,13 +5,14 @@ import { bulkRemove, createTask, getTask, getTasks, removeTask, updateTask } fro
 import { validateCreateTask } from './validators/create-task.validator.js';
 import { validateUpdateTask } from './validators/update-task.validator.js';
 import { validateTasksQuery } from './validators/tasks-query.validator.js';
+import { validateBulkRemove } from './validators/validate-bulk-remove.js';
 
 const taskController = Router();
 taskController.use(authorized);
 
 taskController.get('/', ...validateTasksQuery(), getTasks);
 taskController.get('/:id', validateMongoId(), getTask);
-taskController.delete('/', bulkRemove);
+taskController.delete('/bulk', ...validateBulkRemove(), bulkRemove);
 taskController.delete('/:id', validateMongoId(), removeTask);
 taskController.post('/', ...validateCreateTask(), createTask);
 taskController.post('/:id', validateMongoId(), ...validateUpdateTask(), updateTask);

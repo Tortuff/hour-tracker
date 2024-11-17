@@ -1,7 +1,6 @@
 import { check, matchedData, query, validationResult } from 'express-validator';
 import { UnauthorizedException } from '../exceptions/unauthorized.exception.js';
 import { ValidationException } from '../exceptions/validation.exception.js';
-import mongoose from 'mongoose';
 
 const groupBy = function (field) {
   const result = {};
